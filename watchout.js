@@ -1,31 +1,61 @@
 // make the game board settings
 
 var gameSettings = {
-  height: 450,
-  width: 700,
-  nEnemies: 30,
+  height: 600,
+  width: 3000,
+  nEnemies: 75,
   padding: 20
 }
 
+//make the board
+var board = d3.select('body')
+.append('svg')
+.attr({width: gameSettings.width, height: gameSettings.height, class: "gameBoard"});
+
 //make the Enemies
-//an array of 30 enemy objects with 3 properties. id, x and y
+//an array of 30 enemy objects with 3 properties. id, x and y inside an object
 var makeEnemies = function () {
   return _.range(0, gameSettings.nEnemies).map(function(i) {
     return {
       id: i,
-      x: Math.random() * 800,
-      y: Math.random() * 600
+      x: Math.random() * 1500,
+      y: Math.random() * 1500
     }
   })
 };
 
 var enemy = makeEnemies();
 
+//make the player
+//an object with an x and y property
+var makePlayer = function() {
+  return [{
+    id: 'player',
+    cX: 100,
+    cY: 200,
+    }]
+};
 
-//make the board
-var board = d3.select('body')
-.append('svg')
-.attr({width: gameSettings.width, height: gameSettings.height, class: "gameBoard"});
+var player = makePlayer();
+
+var drag = d3.behavior.drag()
+  .on('drag', function(d){
+    d3.select(this)
+    .attr("cx", d.x = Math.max(10, Math.min(1000, d3.event.x)))
+    .attr("cy", d.y = Math.max(10, Math.min(600, d3.event.y)));
+});
+
+// //render player on the board
+var renderPlayer = board.selectAll('player').data(player).enter();
+
+renderPlayer
+  .append('circle')
+  .attr('fill', 'red')
+  .attr('r', 10)
+  .attr('cy', function(i){return i.cY})
+  .attr('cx', function (i) {return i.cX})
+  .attr('class', 'player').call(drag);
+
 
 
 //renderEnemies on the board
@@ -35,12 +65,18 @@ var renderEnemies =
   .data(enemy)
   .enter()
   .append('circle')
-  .attr('cx', function(i){ return i.x; }).attr('cy', function(i){ return i.y; }).attr('id', function(i){ return i.id; }).attr('r', 10).attr('fill', 'blue' );
+  .attr('cx', function(i){ return i.x; })
+  .attr('cy', function(i){ return i.y; })
+  .attr('id', function(i){ return i.id; })
+  .attr('r', 10).attr('fill', 'blue');
+
 
 //make enemies move every second
 setInterval(function() {
-  renderEnemies.transition().duration(500).attr('cy', function(i){ return Math.random() * 800; }).attr('cx', function(i){ return Math.random() * 600; });
-}, 1000);
+  renderEnemies.transition().duration(500)
+  .attr('cy', function(i){ return Math.random() * 1500; }).attr('cx', function(i){ return Math.random() * 1500; });
+  renderPlayer;
+}, 750);
 
 
 
