@@ -75,24 +75,27 @@ var renderEnemies =
   .attr('id', function(i){ return i.id; })
   .attr('r', 10).attr('fill', 'blue');
 
+//make enemies move every second
+setInterval(function() {
+  renderEnemies.transition().duration(500)
+  // .delay(function(d, i) { return i * 10; })
+  .attr('cy', function(i){ return Math.random() * 600; })
+  .attr('cx', function(i){ return Math.random() * 600; });
+}, 1500);
+
+
+
 function collide(enemies) {
   enemies.each(function(){
-    if(d3.select(this).attr("cx") - d3.select('.player').attr("cx") < 20) {
+    if(Math.abs(d3.select(this).attr("cx") - d3.select('.player').attr("cx")) < 5 && d3.select(this).attr("cy") - d3.select('.player').attr("cy") < 5) {
       console.log('hit');
     }
   });
 }
 
-//make enemies move every second
-setInterval(function() {
-  renderEnemies.transition().duration(500)
-  .attr('cy', function(i){ return Math.random() * 600; })
-  .attr('cx', function(i){ return Math.random() * 600; });
-  collide(renderEnemies)
-}, 1500);
-
-
-
+d3.timer(function(){
+  collide(renderEnemies);
+});
 
 
 
