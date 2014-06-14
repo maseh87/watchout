@@ -2,8 +2,8 @@
 
 var gameSettings = {
   height: 600,
-  width: 3000,
-  nEnemies: 75,
+  width: 1000,
+  nEnemies: 100,
   padding: 20
 }
 
@@ -32,7 +32,7 @@ var makePlayer = function() {
   return [{
     id: 'player',
     cX: 100,
-    cY: 200,
+    cY: 200
     }]
 };
 
@@ -74,8 +74,8 @@ var renderEnemies =
 //make enemies move every second
 setInterval(function() {
   renderEnemies.transition().duration(500)
-  .attr('cy', function(i){ return Math.random() * 1500; }).attr('cx', function(i){ return Math.random() * 1500; });
-  renderPlayer;
+  .attr('cy', function(i){ return Math.random() * 1500; })
+  .attr('cx', function(i){ return Math.random() * 1500; });
 }, 750);
 
 
