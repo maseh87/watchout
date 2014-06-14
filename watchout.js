@@ -75,53 +75,13 @@ var renderEnemies =
   .attr('id', function(i){ return i.id; })
   .attr('r', 10).attr('fill', 'blue');
 
-
-
-// //check if any collisions happen
-// var checkCollision = function(enemy, callBack) {
-//   _.each(player, function(dude) {
-//     var radiusSum = parseFloat(enemy.attr('r')) + dude.r;
-//     var xDiff = parseFloat(enemy.attr('cx')) - dude.x;
-//     var yDiff = parseFloat(enemy.attr('cy')) - dude.y;
-//     var separation = Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2));
-//     if(separation < radiusSum){
-//       callBack(player, enemy);
-//     }
-//   })
-// };
-// var onCollision = function() {
-//   console.log('this shit got real');
-// };
-
-// var collisionDectect = function(endData) {
-//   var checkEnemy = d3.select(this);
-//   var startPosition = {
-//     x: parseFloat(checkEnemy.attr('cx')),
-//     y: parseFloat(checkEnemy.attr('cy'))
-//   }
-
-//   var endPosition = {
-//     x: axes.x(endData.x),
-//     y: axes.y(endData.y)
-//   }
-//   return function(t) {
-//     checkCollision(checkEnemy, onCollision);
-//     var enemyNextPos = {
-//       x: startPosition.x + (endPosition.x - startPosition.x) * t,
-//       y: startPosition.y + (endPosition.y - startPosition.y) * t
-//     };
-//     checkEnemy.attr('cx', enemyNextPos.x)
-//     .attr('cy', enemyNextPos.y);
-//   }
-// };
-
-  // console.log(collisionDectect);
-
-
-
-
-
-
+function collide(enemies) {
+  enemies.each(function(){
+    if(d3.select(this).attr("cx") - d3.select('.player').attr("cx") < 20) {
+      console.log('hit');
+    }
+  });
+}
 
 //make enemies move every second
 setInterval(function() {
@@ -131,15 +91,6 @@ setInterval(function() {
   collide(renderEnemies)
 }, 1500);
 
-
-
-function collide(enemies) {
-  enemies.each(function(){
-    if(d3.select(this).attr("cx") - d3.select('.player').attr("cx") < 20) {
-      console.log('hit');
-    }
-  });
-}
 
 
 
