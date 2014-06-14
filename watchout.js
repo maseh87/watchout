@@ -12,6 +12,11 @@ var axes = {
   y: d3.scale.linear().domain([0,100]).range([0,gameSettings.height])
 };
 
+var score = {
+  currentScore: 0,
+  bestScore: 0
+ };
+
 //make the board
 var board = d3.select('body')
 .append('svg')
@@ -78,17 +83,17 @@ var renderEnemies =
 //make enemies move every second
 setInterval(function() {
   renderEnemies.transition().duration(500)
-  // .delay(function(d, i) { return i * 10; })
   .attr('cy', function(i){ return Math.random() * 600; })
   .attr('cx', function(i){ return Math.random() * 600; });
-}, 1500);
+}, 1000);
 
 
 
 function collide(enemies) {
   enemies.each(function(){
     if(Math.abs(d3.select(this).attr("cx") - d3.select('.player').attr("cx")) < 5 && d3.select(this).attr("cy") - d3.select('.player').attr("cy") < 5) {
-      console.log('hit');
+      score.currentScore = 0;
+      d3.select('.activeScore').text(score.currentScore);
     }
   });
 }
